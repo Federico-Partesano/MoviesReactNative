@@ -1,25 +1,54 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~43.0.0",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@types/react-native-snap-carousel": "^3.8.5",
+    "@types/react-native-video": "^5.0.10",
+    "axios": "^0.23.0",
+    "expo": "^43.0.0",
+    "expo-av": "~10.1.2",
+    "expo-splash-screen": "~0.13.3",
     "expo-status-bar": "~1.1.0",
+    "expo-updates": "~0.10.5",
+    "prop-types": "^15.7.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
-    "react-native-web": "0.17.1"
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-reanimated": "~2.2.0",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-video": "^5.2.0",
+    "react-native-web": "0.17.1",
+    "react-native-webview": "^11.14.1",
+    "react-native-youtube-iframe": "^2.1.2",
+    "react-redux": "^7.2.5",
+    "react-responsive-carousel": "^3.2.22",
+    "react-router-native": "^5.2.1",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "~0.64.12",
-    "typescript": "~4.3.5"
+    "@types/jest": "^27.0.2",
+    "@types/react": "^17.0.32",
+    "@types/react-native": "^0.66.0",
+    "@types/react-redux": "^7.1.20",
+    "@types/react-router-native": "^5.1.2",
+    "@types/react-test-renderer": "^17.0.1",
+    "file-loader": "^6.2.0",
+    "typescript": "^4.4.4"
   },
-  "private": true
+  "private": true,
+  "name": "movieApp",
+  "version": "1.0.0"
 }
