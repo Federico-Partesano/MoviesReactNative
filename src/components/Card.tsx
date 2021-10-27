@@ -14,6 +14,7 @@ const img = "../images/memory.jpg";
 interface Prop {
   poster_path: string;
   title: string;
+  character?: string;
 }
 type Props = {
   data: Prop;
@@ -34,11 +35,18 @@ const MyCard: React.FC<Props> = ({ data }: Props) => {
       <Text style={styles.text}>
         {data.title.substring(0, 13) + threePoints}
       </Text>
+     {data.character !== undefined && <Text style={styles.character}>{data.character }</Text>}
+    
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  character:{
+    color: "#626466",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
   container: {
     display: "flex",
     flexDirection: "column",

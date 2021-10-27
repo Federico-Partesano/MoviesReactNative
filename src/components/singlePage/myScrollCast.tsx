@@ -1,9 +1,13 @@
 import React from "react";
 import MyCardCast from "./CardCast";
+import { StackActions } from "@react-navigation/routers";
+import { StyleSheet, Text, ScrollView, View, TouchableOpacity } from "react-native";
 
-import { StyleSheet, Text, ScrollView, View } from "react-native";
+const MyScrollCast = ({ data, navigation }: any) => {
 
-const MyScrollCast = ({ data }: any) => {
+
+
+
   return (
     <>
       <ScrollView
@@ -13,8 +17,19 @@ const MyScrollCast = ({ data }: any) => {
         style={styles.scrollView}
       >
         {data.cast.map((element: any, index: number) => {
-          return <MyCardCast key={"cardCast" + index} data={element} />;
-        })}
+        
+          return (
+          <TouchableOpacity key={"touchableOpacitycardCast" + index} onPress={() =>
+
+                navigation.dispatch(
+                  StackActions.push("CastPage", {idPerson: element.id})
+                )
+
+          }>
+          <MyCardCast key={"cardCast" + index} data={element}  />
+          
+          </TouchableOpacity>
+        )})}
       </ScrollView>
     </>
   );

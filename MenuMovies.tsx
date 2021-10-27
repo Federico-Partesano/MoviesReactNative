@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { Icon } from 'react-native-elements';
 import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MyScrollView from "./src/components/myScrollView";
@@ -19,73 +20,39 @@ import { SearchBar } from "react-native-screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { color } from "react-native-reanimated";
 import SinglePage from "./src/SinglePage";
-import MenuMovies from './MenuMovies';
+import CastPage from './src/CastPage';
 import SearchPage from "./src/SearchPage";
 import { StackActions } from "@react-navigation/routers";
 import PropTypes from "prop-types";
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
 
-export default function App() {
+
+export default function MenuMovies() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Provider store={store}>
 
-        <Drawer.Navigator
-        initialRouteName="Root"
-        screenOptions={{ headerShown: false}}
-      >
-        <Drawer.Screen name="Root" component={MenuMovies} 
-        
-       options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.dispatch(StackActions.push("Search"));
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-
-                  padding: 5,
-                  borderRadius: 50,
-                }}
-              >
-                Search
-              </Text>
-            </TouchableOpacity>
-          ),
-          title: "Movies",
-          headerStyle: {
-            backgroundColor: "black",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        })}/>
-        <Drawer.Screen name="Home" component={MenuMovies} />
-         
-      </Drawer.Navigator>
+   
 
   
-      {/* <Stack.Navigator>
+      <Stack.Navigator>
             <Stack.Screen
               options={({ navigation }) => ({
+                  headerLeft: () => (
+                    <TouchableOpacity
+                    onPress={() => navigation.openDrawer()} >
+  <Icon
+  tvParallaxProperties={false}
+  style={{ padding: 0 }}
+  name="menu"
+  size={30}
+  color="white"
+/>
+                    </TouchableOpacity>
+                   
+                  ),
+                  headerTitleAlign:"center",
                 headerRight: () => (
                   <TouchableOpacity
                     onPress={() => {
@@ -116,6 +83,21 @@ export default function App() {
               name="Menu"
               component={Menu}
             />
+              <Stack.Screen
+              options={{
+                title: "",
+                headerStyle: {
+                  backgroundColor: "black",
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="CastPage"
+              component={CastPage}
+            />
+
             <Stack.Screen
               options={{
                 title: "",
@@ -130,6 +112,7 @@ export default function App() {
               name="Details"
               component={SinglePage}
             />
+            
 
             <Stack.Screen
               options={{
@@ -145,11 +128,7 @@ export default function App() {
               name="Search"
               component={SearchPage}
             />
-          </Stack.Navigator> */}
-   
-        </Provider>
-      </NavigationContainer>
-    </SafeAreaProvider>
+          </Stack.Navigator> 
   );
 }
 

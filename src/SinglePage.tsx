@@ -144,7 +144,7 @@ const SinglePage = ({ route, navigation }: any) => {
       </View>
       <View style={styles.container}>
         <Text style={styles.titleHistory}>Cast</Text>
-        {credits && <MyScrollCast data={credits} />}
+        {credits && <MyScrollCast navigation={navigation} data={credits} />}
       </View>
       <View style={styles.container}>
         <Text style={styles.titleHistory}>Info</Text>
