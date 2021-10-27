@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { useCallback, useState, useEffect } from "react";
 import { Alert, Dimensions, TouchableOpacity } from "react-native";
+import { SearchBar } from "react-native-elements";
 import YoutubePlayer from "react-native-youtube-iframe";
 import WebView from "react-native-webview";
 import { useSelector, useDispatch } from "react-redux";
@@ -25,7 +26,7 @@ import {
 
 const SearchPage = ({ navigation }: any) => {
   const [movies, setMovies] = useState<any>();
-  const [text, onChangeText] = React.useState<null | string | undefined | any>(
+  const [text, onChangeText] = React.useState<any>(
     ""
   );
 
@@ -56,6 +57,14 @@ const SearchPage = ({ navigation }: any) => {
   return (
     <ScrollView style={{ backgroundColor: "#1D2023" }}>
       <View style={styles.container}>
+      <SearchBar
+      lightTheme={false}
+      round
+      platform="android"
+        placeholder="Type Here..."
+        onChangeText={onChangeText}
+        value={text}
+      />
         {movies &&
           movies.results.map((element: any, index: number) => {
             const points = element.title.length > 36 ? "..." : "";

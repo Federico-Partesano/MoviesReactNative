@@ -16,15 +16,20 @@ const MyScrollCast = ({ data, navigation }: any) => {
         horizontal={true}
         style={styles.scrollView}
       >
-        {data.cast.map((element: any, index: number) => {
+        {data &&  data.cast.map((element: any, index: number) => {
         
           return (
-          <TouchableOpacity key={"touchableOpacitycardCast" + index} onPress={() =>
+          <TouchableOpacity key={"touchableOpacitycardCast" + index} onPress={() =>{
+           console.log(element.id);
 
-                navigation.dispatch(
-                  StackActions.push("CastPage", {idPerson: element.id})
-                )
+            navigation.dispatch(
+              StackActions.push("CastPage", {idPerson: element.id})
+            )
+           
+               
 
+          }
+           
           }>
           <MyCardCast key={"cardCast" + index} data={element}  />
           

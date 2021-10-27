@@ -1,4 +1,6 @@
 import 'react-native-gesture-handler';
+import { enableScreens } from 'react-native-screens';
+
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -23,6 +25,8 @@ import MenuMovies from './MenuMovies';
 import SearchPage from "./src/SearchPage";
 import { StackActions } from "@react-navigation/routers";
 import PropTypes from "prop-types";
+
+
 
 declare global {
   interface Window {

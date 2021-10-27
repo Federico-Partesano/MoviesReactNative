@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Icon } from 'react-native-elements';
-import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Button, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MyScrollView from "./src/components/myScrollView";
 import thunk from "redux-thunk";
@@ -13,6 +13,7 @@ import rootReducer from "./src/reducer";
 import Menu from "./src/menu";
 import { NavigationAction } from "@react-navigation/routers";
 import { TouchableOpacity } from "react-native";
+import { StackAnimationTypes } from 'react-native-screens';
 import { NativeRouter, Route, Link } from "react-router-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
@@ -31,6 +32,9 @@ const Stack = createNativeStackNavigator();
 
 
 export default function MenuMovies() {
+  const animationType: StackAnimationTypes = Platform.OS !== "android" ? "default" : "none";
+
+  
   return (
 
    
@@ -38,6 +42,7 @@ export default function MenuMovies() {
   
       <Stack.Navigator>
             <Stack.Screen
+            
               options={({ navigation }) => ({
                   headerLeft: () => (
                     <TouchableOpacity
@@ -84,7 +89,11 @@ export default function MenuMovies() {
               component={Menu}
             />
               <Stack.Screen
-              options={{
+           
+              options={
+                {
+      
+               animation: animationType,
                 title: "",
                 headerStyle: {
                   backgroundColor: "black",
@@ -100,6 +109,7 @@ export default function MenuMovies() {
 
             <Stack.Screen
               options={{
+                animation: animationType,
                 title: "",
                 headerStyle: {
                   backgroundColor: "black",

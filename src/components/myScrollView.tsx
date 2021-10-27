@@ -46,12 +46,12 @@ const MyScrollView: React.FC<Props> = ({
           movies.map((element: any, index: number) => {
             return (
               <TouchableOpacity
-                key={"touchableopacityMyScroll" + index}
+                key={"touchableopacityMyScroll" + title + index}
                 onPress={() =>
                   navigation.navigate("Details", { idMovie: element.id })
                 }
               >
-                <MyCard key={"card" + index} data={element} />
+                <MyCard key={"card" + title + index} data={element} />
               </TouchableOpacity>
             );
           })}

@@ -15,7 +15,7 @@ const CastPage = ({ route, navigation }: any) => {
     const [detailsPerson, setDetailsPerson] = useState<any>(null);
     const [biografy, setBiografy] = useState<any>(null);
     const { idPerson } = route.params;
-
+    
     const keyApi = "68ae5fab2a5639e3730ea5e55c5b867e";
 
   async function getDetailsMovie() {
@@ -24,7 +24,7 @@ const CastPage = ({ route, navigation }: any) => {
       );
       setDetailsPerson(response.data);
       setBiografy(response.data.biography ? response.data.biography : response.data.translations.translations[0].data.biography);
-      console.log(response.data.movie_credits.cast[0])
+  
       }
       const getBiografy = () =>{
 

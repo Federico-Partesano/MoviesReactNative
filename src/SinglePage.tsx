@@ -78,16 +78,16 @@ const SinglePage = ({ route, navigation }: any) => {
   const windowWidth = Dimensions.get("window").width;
   const [playing, setPlaying] = useState(false);
 
-  const onStateChange = useCallback((state) => {
-    if (state === "ended") {
-      setPlaying(false);
-      Alert.alert("video has finished playing!");
-    }
-  }, []);
+  // const onStateChange = useCallback((state) => {
+  //   if (state === "ended") {
+  //     setPlaying(false);
+  //     Alert.alert("video has finished playing!");
+  //   }
+  // }, []);
 
-  const togglePlaying = useCallback(() => {
-    setPlaying((prev) => !prev);
-  }, []);
+  // const togglePlaying = useCallback(() => {
+  //   setPlaying((prev) => !prev);
+  // }, []);
 
   const getYoutbuteMovie = () => {
     if (videos) {
@@ -98,7 +98,7 @@ const SinglePage = ({ route, navigation }: any) => {
             width={windowWidth}
             play={playing}
             videoId={videos.results[0].key}
-            onChangeState={onStateChange}
+            // onChangeState={onStateChange}
           />
         );
       } else {
