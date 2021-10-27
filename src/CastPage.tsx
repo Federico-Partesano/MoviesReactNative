@@ -80,7 +80,7 @@ return(
      { biografy && (<>
 
      <Text style={{color: "white", alignSelf: "center", fontWeight: "bold", fontSize: 20}}>Biografia</Text>
-     <Text style={{color: "white", paddingHorizontal: 10, marginBottom: 30}}>{biografy}</Text>
+     <Text style={{color: "white", paddingHorizontal: 10, marginBottom: 30, paddingVertical: 10, marginTop: 10, backgroundColor: "#282A37"}}>{biografy}</Text>
       </>) }
 
      { detailsPerson && <MyScrollViewRaccomandation title={"Filmografia"} movie={detailsPerson.movie_credits.cast} navigation={navigation} ></MyScrollViewRaccomandation>}

@@ -21,15 +21,27 @@ type Props = {
 };
 
 const MyCardCast: React.FC<Props> = ({ data }: Props) => {
+  const imagePerson = () =>{
+if(data.profile_path){
+  return(  <Image
+    //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
+    source={{
+      uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${data.profile_path}`,
+    }}
+    style={styles.img}
+  />)
+} else{
+return(
+  <Image
+  style={styles.img}
+  source={require("./../../images/placeholder-user.png")}
+/>
+)
+}
+  }
   return (
     <View style={styles.container}>
-      <Image
-        //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
-        source={{
-          uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${data.profile_path}`,
-        }}
-        style={styles.img}
-      />
+    {imagePerson()}
       <Text style={styles.text}>{data.name}</Text>
       <Text style={styles.textCharacter}>{data.character}</Text>
     </View>

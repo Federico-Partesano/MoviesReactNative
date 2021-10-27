@@ -16,7 +16,7 @@ import { NavigationAction } from "@react-navigation/routers";
 import { TouchableOpacity } from "react-native";
 import { NativeRouter, Route, Link } from "react-router-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { SearchBar } from "react-native-screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { color } from "react-native-reanimated";
@@ -25,6 +25,7 @@ import MenuMovies from './MenuMovies';
 import SearchPage from "./src/SearchPage";
 import { StackActions } from "@react-navigation/routers";
 import PropTypes from "prop-types";
+
 
 
 
@@ -43,9 +44,20 @@ const store = createStore(
 );
 
 export default function App() {
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: 'white',
+      card: "#1D2023",
+      text: 'white',
+      border: 'white',
+    },
+  };
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer theme={MyTheme} >
         <Provider store={store}>
 
         <Drawer.Navigator

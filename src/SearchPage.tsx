@@ -26,9 +26,7 @@ import {
 
 const SearchPage = ({ navigation }: any) => {
   const [movies, setMovies] = useState<any>();
-  const [text, onChangeText] = React.useState<any>(
-    ""
-  );
+  const [text, onChangeText] = useState<any>("");
 
   async function getMovies() {
     const response: any = await axios.get(
@@ -39,16 +37,18 @@ const SearchPage = ({ navigation }: any) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TextInput
-          autoFocus={true}
-          placeholderTextColor={"white"}
-          style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
-          placeholder="Search..."
-        />
-      ),
+      title: "Search"
+      
+      // headerRight: () => (
+      //   <TextInput
+          
+      //     placeholderTextColor={"white"}
+      //     style={styles.input}
+      //     onChangeText={onChangeText}
+      //     value={text}
+      //     placeholder="Search..."
+      //   />
+      // ),
     });
     {
       text ? getMovies() : setMovies(null);
@@ -58,9 +58,10 @@ const SearchPage = ({ navigation }: any) => {
     <ScrollView style={{ backgroundColor: "#1D2023" }}>
       <View style={styles.container}>
       <SearchBar
-      lightTheme={false}
+      containerStyle={{backgroundColor: "#1D2023", borderBottomColor: "grey"}}
+      autoFocus={true}
       round
-      platform="android"
+      platform="default"
         placeholder="Type Here..."
         onChangeText={onChangeText}
         value={text}
@@ -100,12 +101,22 @@ const SearchPage = ({ navigation }: any) => {
               </TouchableOpacity>
             );
           })}
+         
       </View>
+      {!text && <Text style={styles.textMessageInputEmpty}>Scrivi qualcosa per visualizzare film...</Text>}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  textMessageInputEmpty:{
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginTop: 20,
+
+  },
   title: {
     color: "white",
     fontSize: 15,
