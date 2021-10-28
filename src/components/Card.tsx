@@ -23,15 +23,31 @@ type Props = {
 const MyCard: React.FC<Props> = ({ data }: Props) => {
   const threePoints = data.title.length > 15 ? "..." : "";
 
-  return (
-    <View style={styles.container}>
-      <Image
+
+  const imageMovie = () =>{
+    if(data.poster_path){
+      return(  <Image
         //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
         source={{
           uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${data.poster_path}`,
         }}
         style={styles.img}
-      />
+      />)
+    } else{
+    return(
+      <Image
+      style={styles.img}
+      source={require("./../images/film-poster-placeholder.png")}
+    />
+    )
+    }
+      }
+
+
+
+  return (
+    <View style={styles.container}>
+      {imageMovie()}
       <Text style={styles.text}>
         {data.title.substring(0, 13) + threePoints}
       </Text>

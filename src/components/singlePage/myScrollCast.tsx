@@ -20,7 +20,7 @@ const MyScrollCast = ({ data, navigation }: any) => {
         
           return (
           <TouchableOpacity key={"touchableOpacitycardCast" + index} onPress={() =>{
-           console.log(element.id);
+    
 
             navigation.dispatch(
               StackActions.push("CastPage", {idPerson: element.id})

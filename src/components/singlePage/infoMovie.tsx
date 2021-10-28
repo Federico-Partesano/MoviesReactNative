@@ -1,8 +1,23 @@
+import { array } from "prop-types";
 import React from "react";
 
 import { StyleSheet, Text, ScrollView, View } from "react-native";
 
 const InfoMovie = ({ data }: any) => {
+  const getBudget = (): string => {
+    let finalStringBudget: string = "";
+  const arrayBudget =  data.budget.toString().split( /(?=(?:...)*$)/ )  ; 
+  for (const [key, value] of Object.entries(arrayBudget)) {
+    let v: any = value;
+    if(parseInt(key) === arrayBudget.length - 1){
+    finalStringBudget =  finalStringBudget.concat(v.toString() + " €");
+    } else{
+      finalStringBudget =  finalStringBudget.concat(v.toString() + ".");
+    }
+  }
+return finalStringBudget;
+}
+
   return (
     <>
       {/*    ORIGINAL  TITLE     */}
@@ -32,7 +47,7 @@ const InfoMovie = ({ data }: any) => {
         {/*    BUDGET      */}
         <View style={styles.sectionInfo}>
           <Text style={styles.textSectionInfoLeft}>Budget: </Text>
-          <Text style={styles.textSectionInfoRight}>{data.budget}</Text>
+          <Text style={styles.textSectionInfoRight}>{data.budget === 0 ? "Non disponibile" : getBudget()}</Text>
         </View>
       </View>
     </>

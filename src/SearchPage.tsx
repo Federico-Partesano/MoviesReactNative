@@ -35,6 +35,27 @@ const SearchPage = ({ navigation }: any) => {
     setMovies(response.data);
   }
 
+  const imageMovie = (element: any) =>{
+    if(element.poster_path){
+      return(  <Image
+        //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
+        source={{
+          uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
+        }}
+        style={styles.image}
+      />)
+    } else{
+    return(
+      <Image
+      style={styles.image}
+      source={require("./images/film-poster-placeholder.png")}
+    />
+    )
+    }
+      }
+
+
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Search"
@@ -82,13 +103,7 @@ const SearchPage = ({ navigation }: any) => {
                   style={styles.containerColumn}
                   key={"containerColumnSearch" + index}
                 >
-                  <Image
-                    key={"imageSearch" + index}
-                    style={styles.image}
-                    source={{
-                      uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
-                    }}
-                  />
+                  {imageMovie(element)}
                   <View
                     key={"containerRight" + index}
                     style={styles.containerRight}

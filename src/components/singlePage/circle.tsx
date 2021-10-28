@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     color: "#B1BBC5",
   },
   container: {
+    marginHorizontal: 4,
     borderRadius: 50,
     backgroundColor: "#282A37",
     display: "flex",
