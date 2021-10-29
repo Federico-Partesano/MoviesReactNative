@@ -23,6 +23,7 @@ import { color } from "react-native-reanimated";
 import SinglePage from "./src/SinglePage";
 import MenuMovies from './MenuMovies';
 import SearchPage from "./src/SearchPage";
+import MenuSeriesTvNavigation from './src/menuSeriesTv/MenuSeriesTvNavigation';
 import { StackActions } from "@react-navigation/routers";
 import PropTypes from "prop-types";
 
@@ -94,7 +95,7 @@ export default function App() {
             fontWeight: "bold",
           },
         })}/>
-        <Drawer.Screen name="Home" component={MenuMovies} />
+        <Drawer.Screen name="Serie Tv" component={MenuSeriesTvNavigation} />
          
       </Drawer.Navigator>
 

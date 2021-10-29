@@ -19,6 +19,7 @@ type Props = {
   fetch: any;
   title: string;
   navigation: any;
+  type: "tv" | "movie"
 };
 
 const MyScrollView: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const MyScrollView: React.FC<Props> = ({
   fetch,
   title,
   navigation,
+  type,
 }) => {
   const movies = useSelector((state: any) => state[action]);
   const dispatch = useDispatch();
@@ -47,11 +49,16 @@ const MyScrollView: React.FC<Props> = ({
             return (
               <TouchableOpacity
                 key={"touchableopacityMyScroll" + title + index}
-                onPress={() =>
-                  navigation.navigate("Details", { idMovie: element.id })
+                onPress={() =>{
+                  if(type === "movie"){
+                       navigation.navigate("Details", { idMovie: element.id, autoStartVideo: false})
+                  } else if(type === "tv"){
+                    navigation.navigate("DetailsSinglePageSeriesTv", { idMovie: element.id, autoStartVideo: false})
+                  }
+                }
                 }
               >
-                <MyCard key={"card" + title + index} data={element} />
+                <MyCard type={type} key={"card" + title + index} data={element} />
               </TouchableOpacity>
             );
           })}

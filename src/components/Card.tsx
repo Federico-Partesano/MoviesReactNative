@@ -13,15 +13,25 @@ import {
 const img = "../images/memory.jpg";
 interface Prop {
   poster_path: string;
-  title: string;
+  title?: string;
   character?: string;
+  name?: string
 }
 type Props = {
   data: Prop;
+  type: "tv" | "movie",
 };
 
-const MyCard: React.FC<Props> = ({ data }: Props) => {
-  const threePoints = data.title.length > 15 ? "..." : "";
+const MyCard: React.FC<Props> = ({ data, type }: Props) => {
+  let  threePoints = "";
+  let titleCard = "";
+  if(type === "movie"){
+     threePoints = data.title!.length > 15 ? "..." : "";
+     titleCard = data.title!.substring(0, 13);
+  } else if(type === "tv"){
+     threePoints = data.name!.length > 15 ? "..." : "";
+     titleCard = data.name!.substring(0, 13);
+  }
 
 
   const imageMovie = () =>{
@@ -49,7 +59,7 @@ const MyCard: React.FC<Props> = ({ data }: Props) => {
     <View style={styles.container}>
       {imageMovie()}
       <Text style={styles.text}>
-        {data.title.substring(0, 13) + threePoints}
+        {titleCard + threePoints}
       </Text>
      {data.character !== undefined && <Text style={styles.character}>{data.character }</Text>}
     

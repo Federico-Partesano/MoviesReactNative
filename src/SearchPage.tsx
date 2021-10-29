@@ -30,7 +30,7 @@ const SearchPage = ({ navigation }: any) => {
 
   async function getMovies() {
     const response: any = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=68ae5fab2a5639e3730ea5e55c5b867e&language=it&include_adult=false&query=${text}`
+      `https://api.themoviedb.org/3/search/multi?api_key=68ae5fab2a5639e3730ea5e55c5b867e&language=it&include_adult=false&query=${text}`
     );
     setMovies(response.data);
   }
@@ -41,6 +41,14 @@ const SearchPage = ({ navigation }: any) => {
         //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
         source={{
           uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.poster_path}`,
+        }}
+        style={styles.image}
+      />)
+    } else if(element.profile_path){
+      return(  <Image
+        //https://www.themoviedb.org/t/p/w300_and_h450_bestv2/bbqz34ytdrYUcK3GZSAwsrW2Ee7.jpg
+        source={{
+          uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.profile_path}`,
         }}
         style={styles.image}
       />)
@@ -89,14 +97,31 @@ const SearchPage = ({ navigation }: any) => {
       />
         {movies &&
           movies.results.map((element: any, index: number) => {
-            const points = element.title.length > 36 ? "..." : "";
+            let points;
+            if(element.media_type === "movie"){
+               points = element.title.length > 36 ? "..." : "";
+            } else if(element.media_type === "tv" || element.media_type === "person"){
+               points = element.name.length > 36 ? "..." : "";
+            }
+           
             return (
               <TouchableOpacity
                 key={"TouchableOpacitySearch" + index}
-                onPress={() =>
-                  navigation.dispatch(
+                onPress={() =>{if(element.media_type === "movie"){
+                   navigation.dispatch(
                     StackActions.push("Details", { idMovie: element.id })
                   )
+                } else if(element.media_type === "tv"){
+                  navigation.dispatch(
+                    StackActions.push("DetailsSinglePageSeriesTv", { idMovie: element.id })
+                    )
+                } else{
+                  navigation.dispatch(
+                    StackActions.push("CastPage", {idPerson: element.id})
+                  )
+                }
+                 
+                }
                 }
               >
                 <View
@@ -109,8 +134,9 @@ const SearchPage = ({ navigation }: any) => {
                     style={styles.containerRight}
                   >
                     <Text key={"title" + index} style={styles.title}>
-                      {element.title.substring(0, 36) + points}
+                      {element.media_type === "movie" ? element.title.substring(0, 36) + points :element.name.substring(0, 36) + points }
                     </Text>
+                    <Text style={{fontWeight: "bold", color: "#626466"}}>{element.media_type}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -118,7 +144,7 @@ const SearchPage = ({ navigation }: any) => {
           })}
          
       </View>
-      {!text && <Text style={styles.textMessageInputEmpty}>Scrivi qualcosa per visualizzare film...</Text>}
+      {!text && <Text style={styles.textMessageInputEmpty}>Scrivi qualcosa per visualizzare film, serie Tv o attori...</Text>}
     </ScrollView>
   );
 };

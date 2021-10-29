@@ -1,24 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import { useDispatch } from "react-redux";
-import { Image, TouchableOpacity, TouchableWithoutFeedback, TouchableNativeFeedback, Platform } from "react-native";
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import { Image } from "react-native";
+import React, { useEffect, useState, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { StyleSheet, Text, View, SafeAreaView, Button } from "react-native";
-import MyScrollView from "./components/myScrollView";
-import { fetchUpcomingMovies, fetchPopularMovies } from "./actions/fetchs";
+import MyScrollView from "./../components/myScrollView";
+import { fetchUpcomingMovies, fetchPopularSeriesTv, fetchTopRatedSeriesTv } from "./../actions/fetchs";
 import { Route, Link } from "react-router-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { ScrollView } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 import { Dimensions } from "react-native";
 
-export default function Menu({ navigation }: any) {
+export default function MenuSeriesTv({ navigation }: any) {
   const [state, setState] = useState<Object>({});
   const video = React.useRef(null);
   const carousel = React.useRef(null);
   const windowWidth = Dimensions.get("window").width;
-  const moviesCarousel = useSelector((state: any) => state["popularMovies"]);
-
+  const moviesCarousel = useSelector((state: any) => state["popularSeriesTv"]);
   const carouselItems = [
     {
       title: "Item 1",
@@ -49,38 +48,20 @@ export default function Menu({ navigation }: any) {
       >
         {moviesCarousel[0] && (
           <>
-          
-          {Platform.OS !== "ios" && <TouchableWithoutFeedback style={{zIndex: 1}} onPress={
-            () =>   navigation.navigate("Details", { idMovie: moviesCarousel[index].id, autoStartVideo: true})
-                }>
-            
-            <Image 
+             <Image
               style={styles.play}
-              source={require("./images/video-play.png")}
-            />
+              source={require("./../images/video-play.png")}
+            /> 
 
-        </TouchableWithoutFeedback>}
-        {Platform.OS === "ios" && <TouchableOpacity style={{zIndex: 1}} onPress={
-      () =>  navigation.navigate("Details", { idMovie: moviesCarousel[index].id, autoStartVideo: true})
-        }>
-               
-               <Image 
-                 style={styles.play}
-                 source={require("./images/video-play.png")}
-               />
-             
-           </TouchableOpacity>}
             <Text style={styles.titleCarousel}>
-              {moviesCarousel[index].title}
+              {moviesCarousel[index].name}
             </Text>
-          
             <Image
               source={{
                 uri: `https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${moviesCarousel[index].backdrop_path}`,
               }}
               style={styles.img}
             />
-          
           </>
         )}
       </View>
@@ -100,7 +81,7 @@ export default function Menu({ navigation }: any) {
               marginBottom: 15,
             }}
           >
-            <Carousel
+             <Carousel
               layout={"default"}
               ref={carousel}
               data={carouselItems}
@@ -108,22 +89,22 @@ export default function Menu({ navigation }: any) {
               sliderWidth={200}
               itemWidth={windowWidth}
               onSnapToItem={(index) => setState({ activeSlide: index })}
-            />
+            /> 
           </View>
 
           <MyScrollView
-          type={"movie"}
+            type={"tv"}
             navigation={navigation}
-            action={"upComingMovies"}
-            fetch={fetchUpcomingMovies}
-            title={"PROSSIMAMENTE"}
-          />
-          <MyScrollView
-             type={"movie"}
-            navigation={navigation}
-            action={"popularMovies"}
-            fetch={fetchPopularMovies}
+            action={"popularSeriesTv"}
+            fetch={fetchPopularSeriesTv}
             title={"POPOLARI"}
+          />
+           <MyScrollView
+           type="tv"
+            navigation={navigation}
+            action={"topRatedSeriesTv"}
+            fetch={fetchTopRatedSeriesTv}
+            title={"PIÙ VOTATI"}
           />
 
           {/*  <View style={{ display: "flex", flexDirection: "row" }}>

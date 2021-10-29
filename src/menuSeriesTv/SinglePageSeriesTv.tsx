@@ -1,14 +1,14 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect } from "react";
 import { useCallback, useState, useEffect } from "react";
 import { Alert, Dimensions,ActivityIndicator } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 import WebView from "react-native-webview";
 import { useSelector, useDispatch } from "react-redux";
-import Circle from "./components/singlePage/circle";
-import MyScrollCast from "./components/singlePage/myScrollCast";
-import InfoMovie from "./components/singlePage/infoMovie";
-import MyScrollView from "./components/myScrollView";
-import MyScrollViewRaccomandation from "./components/singlePage/myScrollViewRaccomandation";
+import Circle from "./../components/singlePage/circle";
+import MyScrollCast from "./../components/singlePage/myScrollCast";
+import InfoSeriesTv from "./components/infoSeriesTv";
+import MyScrollView from "./../components/myScrollView";
+import MyScrollViewRaccomandation from "./../components/singlePage/myScrollViewRaccomandation";
 
 import {LinearGradient} from 'expo-linear-gradient';
 import axios from "axios";
@@ -22,13 +22,11 @@ import {
   Image,
 } from "react-native";
 
-const SinglePage = ({ route, navigation }: any) => {
+const SinglePageSeriesTv = ({ route, navigation }: any) => {
 
   // let inLoading: boolean = true; 
-  
-  const { idMovie, autoStartVideo } = route.params;
 
-
+  const { idMovie } = route.params;
   const [details, setDetails] = useState<any>(null);
   const [videos, setVideos] = useState<any>(null);
   const [credits, setCredits] = useState<any>(null);
@@ -37,31 +35,37 @@ const SinglePage = ({ route, navigation }: any) => {
   const [raccomandations, setRaccomandations] = useState<any>(null);
   const keyApi = "68ae5fab2a5639e3730ea5e55c5b867e";
   async function fetchDetailsMovie(idMovie: any) {
-    const requestOne = await axios.get(
-      `https://api.themoviedb.org/3/movie/${idMovie}?api_key=${keyApi}&language=it`
+    const requestDetailsTv = await axios.get(
+      `https://api.themoviedb.org/3/tv/${idMovie}?api_key=${keyApi}&language=it`
     );
-    const requestTwo = await axios.get(
-      `https://api.themoviedb.org/3/movie/${idMovie}/videos?api_key=${keyApi}&language=it`
+    let requestVideosTv: any = await axios.get(
+      `https://api.themoviedb.org/3/tv/${idMovie}/videos?api_key=${keyApi}&include_video_language=it`
     );
-    const requestThree = await axios.get(
-      `https://api.themoviedb.org/3/movie/${idMovie}/credits?api_key=${keyApi}&language=it`
+    if(requestVideosTv.data.results.length === 0){
+        requestVideosTv = await axios.get(
+            `https://api.themoviedb.org/3/tv/${idMovie}/videos?api_key=${keyApi}`
+          );
+         
+    }
+    const requestCreditsTv = await axios.get(
+      `https://api.themoviedb.org/3/tv/${idMovie}/credits?api_key=${keyApi}&language=it`
     );
-    const requestFourth = await axios.get(
-      `https://api.themoviedb.org/3/movie/${idMovie}/recommendations?api_key=${keyApi}&language=it&page=1`
+    const requestRaccomandationsTv = await axios.get(
+      `https://api.themoviedb.org/3/tv/${idMovie}/recommendations?api_key=${keyApi}&language=it&page=1`
     );
     axios
-      .all([requestOne, requestTwo, requestThree, requestFourth])
+      .all([requestDetailsTv, requestVideosTv, requestCreditsTv, requestRaccomandationsTv])
       .then(
         axios.spread((...responses) => {
-          const responseOne = responses[0];
-          const responseTwo = responses[1];
-          const responseThree = responses[2];
-          const responseFourth = responses[3];
+          const responseDetailsTv = responses[0];
+          const responseVideosTv = responses[1];
+          const responseCreditsTv = responses[2];
+          const responseRaccomandationsTv = responses[3];
           // use/access the results
-          setDetails(responseOne.data);
-          setVideos(responseTwo.data);
-          setCredits(responseThree.data);
-          setRaccomandations(responseFourth.data);
+          setDetails(responseDetailsTv.data);
+          setVideos(responseVideosTv.data);
+          setCredits(responseCreditsTv.data);
+          setRaccomandations(responseRaccomandationsTv.data);
         })
       )
       .catch((errors) => {
@@ -72,7 +76,8 @@ const SinglePage = ({ route, navigation }: any) => {
   useLayoutEffect(() => {
     details &&
       navigation.setOptions({
-        title: details.title,
+        title: details.name,
+    
       });
   });
 
@@ -84,7 +89,7 @@ const SinglePage = ({ route, navigation }: any) => {
     getMovie(idMovie);
   }, []);
   const windowWidth = Dimensions.get("window").width;
-
+  const [playing, setPlaying] = useState(false);
 
   // const onStateChange = useCallback((state) => {
   //   if (state === "ended") {
@@ -99,13 +104,24 @@ const SinglePage = ({ route, navigation }: any) => {
 
   const getYoutbuteMovie = () => {
     if (videos) {
+        let video;
       if (videos.results.length > 0) {
+           video = videos.results.find((element: any) => element.iso_639_1 === "it");
+
+          if(video ===  undefined){
+              video = videos.results.find((element: any) => element.type === "Trailer");
+          }
+          
+          if(video ===  undefined){
+            video = videos.results[0];
+          }
+        
         return (
           <YoutubePlayer
             height={224}
             width={windowWidth}
-            play={autoStartVideo}
-            videoId={videos.results[0].key}
+            play={playing}
+            videoId={video.key}
             // onChangeState={onStateChange}
           />
         );
@@ -160,7 +176,7 @@ const SinglePage = ({ route, navigation }: any) => {
       return(  <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.container}>
           {getYoutbuteMovie()}
-          <Text style={styles.titleMovie}>{details.title}</Text>
+          <Text style={styles.titleMovie}>{details.name}</Text>
         </View>
         <View style={styles.container}>
          
@@ -185,7 +201,7 @@ const SinglePage = ({ route, navigation }: any) => {
         </View>
         <View style={styles.container}>
           <Text style={styles.titleHistory}>Info</Text>
-         <InfoMovie data={details} />
+          <InfoSeriesTv data={details} /> 
         </View>
         <View style={styles.container}>
       
@@ -288,7 +304,7 @@ const styles = StyleSheet.create({
   },
 });
 //color: "#626466",
-export default SinglePage;
+export default SinglePageSeriesTv;
 
 
        {/* <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['rgba(29,32,35,0)', 'rgba(29,32,35,1)', 'rgba(29,32,35,0)']} style={{ 

@@ -45,7 +45,7 @@ const MyScrollViewRaccomandation: React.FC<Props> = ({
                   )
                 }
               >
-                <MyCard key={"card" + index} data={element} />
+                <MyCard type="movie" key={"card" + index} data={element} />
               </TouchableOpacity>
             );
           })}

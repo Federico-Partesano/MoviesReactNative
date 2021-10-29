@@ -8,9 +8,10 @@ const Circle = ({ data }: any) => {
       <View style={styles.container}>
         <Text style={styles.text}>{`stato: ${data.status}`}</Text>
       </View>
-      <View style={styles.container}>
+     { data.release_date && <View style={styles.container}>
         <Text style={styles.text}>{`data rilascio: ${data.release_date}`}</Text>
       </View>
+}
       <View style={styles.container}>
         <Text style={styles.text}>{`voto: ${data.vote_average}/10`}</Text>
       </View>
