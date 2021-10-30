@@ -11,6 +11,8 @@ import { Video, AVPlaybackStatus } from "expo-av";
 import { ScrollView } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 import { Dimensions } from "react-native";
+import { Platform } from "react-native";
+import { TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 
 export default function MenuSeriesTv({ navigation }: any) {
   const [state, setState] = useState<Object>({});
@@ -48,10 +50,26 @@ export default function MenuSeriesTv({ navigation }: any) {
       >
         {moviesCarousel[0] && (
           <>
-             <Image
+                    {Platform.OS !== "ios" && <TouchableWithoutFeedback style={{zIndex: 1}} onPress={
+            () =>   navigation.navigate("DetailsSinglePageSeriesTv", { idMovie: moviesCarousel[index].id, autoStartVideo: true})
+                }>
+            
+            <Image 
               style={styles.play}
               source={require("./../images/video-play.png")}
-            /> 
+            />
+
+        </TouchableWithoutFeedback>}
+        {Platform.OS === "ios" && <TouchableOpacity style={{zIndex: 1}} onPress={
+      () =>  navigation.navigate("DetailsSinglePageSeriesTv", { idMovie: moviesCarousel[index].id, autoStartVideo: true})
+        }>
+               
+               <Image 
+                 style={styles.play}
+                 source={require("./../images/video-play.png")}
+               />
+             
+           </TouchableOpacity>}
 
             <Text style={styles.titleCarousel}>
               {moviesCarousel[index].name}

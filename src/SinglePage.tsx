@@ -22,7 +22,10 @@ import {
   Image,
 } from "react-native";
 
+type  statusOfVideoPlayer = "unstarted"  | "video cue" | "buffering" | "playing" | "paused" | "ended";
 const SinglePage = ({ route, navigation }: any) => {
+
+  const videPlayer: any = useRef(null);
 
   // let inLoading: boolean = true; 
   
@@ -32,6 +35,7 @@ const SinglePage = ({ route, navigation }: any) => {
   const [details, setDetails] = useState<any>(null);
   const [videos, setVideos] = useState<any>(null);
   const [credits, setCredits] = useState<any>(null);
+  const [statusVideoPlayer, setStatusVideoPlayer] = useState<string | null>(null);
   const [xAnimationLoading, setXAnimationLoading ] = useState<any>(0);
 
   const [raccomandations, setRaccomandations] = useState<any>(null);
@@ -62,6 +66,7 @@ const SinglePage = ({ route, navigation }: any) => {
           setVideos(responseTwo.data);
           setCredits(responseThree.data);
           setRaccomandations(responseFourth.data);
+    
         })
       )
       .catch((errors) => {
@@ -74,7 +79,11 @@ const SinglePage = ({ route, navigation }: any) => {
       navigation.setOptions({
         title: details.title,
       });
-  });
+  },[details]);
+
+const showTitle = (e:string) =>{
+setStatusVideoPlayer(e);
+}
 
   async function getMovie(idMovie: any) {
     fetchDetailsMovie(idMovie);
@@ -102,6 +111,8 @@ const SinglePage = ({ route, navigation }: any) => {
       if (videos.results.length > 0) {
         return (
           <YoutubePlayer
+          onChangeState={showTitle}
+          ref={videPlayer}
             height={224}
             width={windowWidth}
             play={autoStartVideo}
@@ -160,7 +171,7 @@ const SinglePage = ({ route, navigation }: any) => {
       return(  <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.container}>
           {getYoutbuteMovie()}
-          <Text style={styles.titleMovie}>{details.title}</Text>
+         {statusVideoPlayer !== "playing" && <Text style={styles.titleMovie}>{details.title}</Text>}
         </View>
         <View style={styles.container}>
          
@@ -189,7 +200,8 @@ const SinglePage = ({ route, navigation }: any) => {
         </View>
         <View style={styles.container}>
       
-       { raccomandations.results > 0 &&     <MyScrollViewRaccomandation
+       { raccomandations.results.length > 0 &&     <MyScrollViewRaccomandation 
+              type={"movie"}
               movie={raccomandations.results}
               navigation={navigation}
               title={"Raccomandati"}

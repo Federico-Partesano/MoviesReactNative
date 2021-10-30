@@ -26,6 +26,7 @@ import SearchPage from "./src/SearchPage";
 import { StackActions } from "@react-navigation/routers";
 import SinglePageSeriesTv from './src/menuSeriesTv/SinglePageSeriesTv';
 import PropTypes from "prop-types";
+import ListOfCards from './src/components/listofCards';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -124,6 +125,23 @@ export default function MenuMovies() {
               name="Details"
               component={SinglePage}
             />
+
+           <Stack.Screen
+              options={{
+                animation: animationType,
+                title: "",
+                headerStyle: {
+                  backgroundColor: "black",
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="ListOfCards"
+              component={ListOfCards}
+              />
+
             
 
             <Stack.Screen

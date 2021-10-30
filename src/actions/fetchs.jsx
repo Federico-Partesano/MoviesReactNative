@@ -17,7 +17,7 @@ export const fetchUpcomingMovies = () => {
 
     dispatch(updateUpcomingMovies(response.data.results));
   };
-};93740
+};
 
 export const fetchPopularMovies = () => {
   return async function (dispatch, getState) {

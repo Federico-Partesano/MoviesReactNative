@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import MyCard from "./Card";
 import { useSelector, useDispatch } from "react-redux";
 import { View } from "react-native";
-
+import { TouchableOpacity } from "react-native";
+import { StackActions } from "@react-navigation/routers";
+import { LogBox } from 'react-native';
 import {
   StyleSheet,
   Text,
@@ -12,7 +14,7 @@ import {
   Image,
 } from "react-native";
 import { RootState } from "../reducer";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 
 type Props = {
   action: any;
@@ -32,12 +34,32 @@ const MyScrollView: React.FC<Props> = ({
   const movies = useSelector((state: any) => state[action]);
   const dispatch = useDispatch();
 
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+  
+
+
+
   useEffect(() => {
     dispatch(fetch());
   }, []);
   return (
     <>
-      <Text style={styles.title}>{title}</Text>
+    <View style={styles.containerTitleCard}>
+          <Text style={styles.title}>{title}</Text>
+          <TouchableOpacity
+
+   onPress={() =>  {
+    navigation.dispatch(
+      StackActions.push("ListOfCards", {action: action, fetch: fetch, navigation: navigation, type: type, title: title})
+      )
+
+   }}>
+          <Text style={styles.showMoreTitles}>Vedi di più...</Text>
+          </TouchableOpacity>
+    </View>
+  
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -68,13 +90,23 @@ const MyScrollView: React.FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
+  showMoreTitles:{
+    color: "#626466",
+    marginTop: 0,
+    fontSize: 15,
+  },
+  containerTitleCard:{ display: "flex",
+  width:"100%", flexDirection:"row",
+   justifyContent: "space-between",
+    paddingHorizontal: 25,
+    paddingBottom: 5
+  },
+
   title: {
     color: "#626466",
     fontWeight: "bold",
     marginTop: 0,
     fontSize: 15,
-    marginHorizontal: 25,
-    alignSelf: "flex-start",
   },
   scrollView: {
     marginHorizontal: 20,

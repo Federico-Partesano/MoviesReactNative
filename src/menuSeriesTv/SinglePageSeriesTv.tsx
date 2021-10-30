@@ -26,12 +26,12 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
 
   // let inLoading: boolean = true; 
 
-  const { idMovie } = route.params;
+  const { idMovie, autoStartVideo } = route.params;
   const [details, setDetails] = useState<any>(null);
   const [videos, setVideos] = useState<any>(null);
   const [credits, setCredits] = useState<any>(null);
   const [xAnimationLoading, setXAnimationLoading ] = useState<any>(0);
-
+  const [statusVideoPlayer, setStatusVideoPlayer] = useState<string | null>(null);
   const [raccomandations, setRaccomandations] = useState<any>(null);
   const keyApi = "68ae5fab2a5639e3730ea5e55c5b867e";
   async function fetchDetailsMovie(idMovie: any) {
@@ -91,6 +91,14 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
   const windowWidth = Dimensions.get("window").width;
   const [playing, setPlaying] = useState(false);
 
+
+  const showTitle = (e:string) =>{
+    setStatusVideoPlayer(e);
+
+    }
+
+
+
   // const onStateChange = useCallback((state) => {
   //   if (state === "ended") {
   //     setPlaying(false);
@@ -118,9 +126,10 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
         
         return (
           <YoutubePlayer
+          onChangeState={showTitle}
             height={224}
             width={windowWidth}
-            play={playing}
+            play={autoStartVideo}
             videoId={video.key}
             // onChangeState={onStateChange}
           />
@@ -176,7 +185,7 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
       return(  <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.container}>
           {getYoutbuteMovie()}
-          <Text style={styles.titleMovie}>{details.name}</Text>
+        { statusVideoPlayer !== "playing" && <Text style={styles.titleMovie}>{details.name}</Text> }
         </View>
         <View style={styles.container}>
          
@@ -205,7 +214,8 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
         </View>
         <View style={styles.container}>
       
-       { raccomandations.results > 0 &&     <MyScrollViewRaccomandation
+       { raccomandations.results.length > 0 &&     <MyScrollViewRaccomandation
+       type={"tv"}
               movie={raccomandations.results}
               navigation={navigation}
               title={"Raccomandati"}

@@ -17,6 +17,7 @@ import { StackActions } from "@react-navigation/routers";
 import Menu from '../menu';
 import MenuSeriesTv from './menuSeriesTv.';
 import SinglePageSeriesTv from './SinglePageSeriesTv';
+import ListOfCards from '../components/listofCards';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -68,7 +69,7 @@ export default function MenuSeriesTvNavigation() {
                     </Text>
                   </TouchableOpacity>
                 ),
-                title: "Movies",
+                title: "Serie Tv",
                 headerStyle: {
                   backgroundColor: "black",
                 },
@@ -98,6 +99,23 @@ export default function MenuSeriesTvNavigation() {
               name="CastPage"
               component={CastPage}
             />
+
+<Stack.Screen
+              options={{
+                animation: animationType,
+                title: "",
+                headerStyle: {
+                  backgroundColor: "black",
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="ListOfCards"
+              component={ListOfCards}
+              />
+
 
             <Stack.Screen
               options={{

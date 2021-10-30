@@ -18,12 +18,14 @@ type Props = {
   movie: any;
   title: string;
   navigation: any;
+  type: "tv" | "movie",
 };
 
 const MyScrollViewRaccomandation: React.FC<Props> = ({
   movie,
   title,
   navigation,
+  type,
 }) => {
   return (
     <>
@@ -39,13 +41,23 @@ const MyScrollViewRaccomandation: React.FC<Props> = ({
             return (
               <TouchableOpacity
                 key={"touchableopacityMyScroll" + index}
-                onPress={() =>
-                  navigation.dispatch(
-                    StackActions.push("Details", { idMovie: element.id })
-                  )
+                onPress={() =>{
+                    if(type === "movie"){
+                      navigation.dispatch(
+                      StackActions.push("Details", { idMovie: element.id })
+                      )
+
+                    } else{
+                      navigation.dispatch(
+                        StackActions.push("DetailsSinglePageSeriesTv", { idMovie: element.id })
+                        ) 
+                    }
+
+                }
+                 
                 }
               >
-                <MyCard type="movie" key={"card" + index} data={element} />
+                <MyCard type={type} key={"card" + index} data={element} />
               </TouchableOpacity>
             );
           })}
