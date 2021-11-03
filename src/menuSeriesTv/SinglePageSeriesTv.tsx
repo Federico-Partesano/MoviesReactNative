@@ -33,9 +33,10 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
   const [xAnimationLoading, setXAnimationLoading ] = useState<any>(0);
   const [statusVideoPlayer, setStatusVideoPlayer] = useState<string | null>(null);
   const [raccomandations, setRaccomandations] = useState<any>(null);
+  const [detailsSeasons, setDetailsSeasons] = useState<any>(null);
   const keyApi = "68ae5fab2a5639e3730ea5e55c5b867e";
   async function fetchDetailsMovie(idMovie: any) {
-    const requestDetailsTv = await axios.get(
+    const requestDetailsTv: any = await axios.get(
       `https://api.themoviedb.org/3/tv/${idMovie}?api_key=${keyApi}&language=it`
     );
     let requestVideosTv: any = await axios.get(
@@ -53,21 +54,38 @@ const SinglePageSeriesTv = ({ route, navigation }: any) => {
     const requestRaccomandationsTv = await axios.get(
       `https://api.themoviedb.org/3/tv/${idMovie}/recommendations?api_key=${keyApi}&language=it&page=1`
     );
+    let seasonsDetails = [];
+    if(requestDetailsTv.data.number_of_seasons && requestDetailsTv.data.number_of_season > 0){
+    
+    for(let i = 0; i < requestDetailsTv.data.number_of_seasons; i++){
+            const response = await axios.get(
+        `https://api.themoviedb.org/3/tv/${idMovie}/season/${i + 1}?api_key=68ae5fab2a5639e3730ea5e55c5b867e&language=it`
+      )
+      seasonsDetails.push(response)
+            }
+    }
+    // console.log(seasonsDetails);
+    
     axios
-      .all([requestDetailsTv, requestVideosTv, requestCreditsTv, requestRaccomandationsTv])
+      .all([requestDetailsTv, requestVideosTv, requestCreditsTv, requestRaccomandationsTv, seasonsDetails])
       .then(
         axios.spread((...responses) => {
           const responseDetailsTv = responses[0];
           const responseVideosTv = responses[1];
           const responseCreditsTv = responses[2];
           const responseRaccomandationsTv = responses[3];
+          const responseSeasonsDetails = responses[4];
           // use/access the results
           setDetails(responseDetailsTv.data);
           setVideos(responseVideosTv.data);
           setCredits(responseCreditsTv.data);
           setRaccomandations(responseRaccomandationsTv.data);
+          setDetailsSeasons(responseSeasonsDetails.data)
+          console.log("🚀 ~ file: SinglePageSeriesTv.tsx ~ line 81 ~ axios.spread ~ responseSeasonsDetails", responseSeasonsDetails[0].data._id)
+        
+          console.log("ciao");
         })
-      )
+      ).then()
       .catch((errors) => {
         // react on errors.
       });

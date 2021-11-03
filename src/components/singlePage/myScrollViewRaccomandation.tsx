@@ -25,11 +25,12 @@ const MyScrollViewRaccomandation: React.FC<Props> = ({
   movie,
   title,
   navigation,
-  type,
 }) => {
+  console.log(movie[0].name);
   return (
     <>
       <Text style={styles.title}>{title}</Text>
+      
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -38,6 +39,8 @@ const MyScrollViewRaccomandation: React.FC<Props> = ({
       >
         {movie &&
           movie.map((element: any, index: number) => {
+            let type: "tv" | "movie" = movie.title ? "movie" : "tv";
+            console.log("type:", type);
             return (
               <TouchableOpacity
                 key={"touchableopacityMyScroll" + index}

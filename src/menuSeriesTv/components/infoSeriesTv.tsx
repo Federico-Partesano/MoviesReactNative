@@ -14,7 +14,7 @@ const InfoSeriesTv = ({ data }: any) => {
         <View style={styles.container}>
         <View style={styles.sectionInfo}>
           <Text style={styles.textSectionInfoLeft}>Titolo originale: </Text>
-          <Text style={styles.textSectionInfoRight}>{data.original_name}</Text>
+          <Text style={styles.textSectionInfoRight}>{data.id}</Text>
         </View>
     
       {/*    ORIGINAL  IN PRODUCTION     */}
