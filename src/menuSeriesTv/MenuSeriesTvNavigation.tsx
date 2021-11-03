@@ -54,7 +54,7 @@ export default function MenuSeriesTvNavigation() {
                 headerRight: () => (
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.dispatch(StackActions.push("Search"));
+                      navigation.push("Search");
                     }}
                   >
                     <Text
@@ -100,21 +100,7 @@ export default function MenuSeriesTvNavigation() {
               component={CastPage}
             />
 
-<Stack.Screen
-              options={{
-                animation: animationType,
-                title: "",
-                headerStyle: {
-                  backgroundColor: "black",
-                },
-                headerTintColor: "#fff",
-                headerTitleStyle: {
-                  fontWeight: "bold",
-                },
-              }}
-              name="ListOfCards"
-              component={ListOfCards}
-              />
+
 
 
             <Stack.Screen
@@ -132,6 +118,37 @@ export default function MenuSeriesTvNavigation() {
               name="DetailsSinglePageSeriesTv"
               component={SinglePageSeriesTv}
             />
+              <Stack.Screen
+              options={{
+                animation: animationType,
+                title: "",
+                headerStyle: {
+                  backgroundColor: "black",
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="Details"
+              component={SinglePage}
+            />
+
+<Stack.Screen
+              options={{
+                animation: animationType,
+                title: "ciao",
+                headerStyle: {
+                  backgroundColor: "black",
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                },
+              }}
+              name="ListOfCards"
+              component={ListOfCards}
+              />
             
 
             <Stack.Screen

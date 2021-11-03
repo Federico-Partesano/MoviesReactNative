@@ -52,7 +52,7 @@ const MyScrollView: React.FC<Props> = ({
 
    onPress={() =>  {
     navigation.dispatch(
-      StackActions.push("ListOfCards", {action: action, fetch: fetch, navigation: navigation, type: type, title: title})
+      StackActions.push("ListOfCards", {action: action, fetch: fetch, type: type, title: title})
       )
 
    }}>

@@ -87,7 +87,8 @@ export default function MenuSeriesTv({ navigation }: any) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView     showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
       <View style={styles.container2}>
         <View style={styles.container}>
           <StatusBar style="auto" />

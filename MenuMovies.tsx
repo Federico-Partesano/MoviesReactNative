@@ -63,7 +63,7 @@ export default function MenuMovies() {
                 headerRight: () => (
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.dispatch(StackActions.push("Search"));
+                      navigation.navigate("Search");
                     }}
                   >
                     <Text

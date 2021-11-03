@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import CardListOfCards from "./CardListOfCards";
 import { useSelector, useDispatch } from "react-redux";
 import { FlatList, useWindowDimensions, View } from "react-native";
@@ -38,16 +38,34 @@ type Props = {
 }
 
 
-const ListOfCards: React.FC<Props> = ({route})  => {
+const ListOfCards: React.FC<Props> = ({route, navigation})  => {
 
 
-  const { action,fetch, title ,type, navigation} = route.params;
+  const { action,fetch, title ,type} = route.params;
   const [page, setPage] = useState(2);
   const movies = useSelector((state: any) => state[action]);
   const [moviesList,setMoviesList] = useState(movies);
   const dispatch = useDispatch();
   const paramCategoryForFetch: any = categories[title];
 
+
+  useLayoutEffect(() => {
+    
+    navigation.setOptions({
+      title: title,
+      headerTitleAlign:"center",
+      // headerRight: () => (
+      //   <TextInput
+          
+      //     placeholderTextColor={"white"}
+      //     style={styles.input}
+      //     onChangeText={onChangeText}
+      //     value={text}
+      //     placeholder="Search..."
+      //   />
+      // ),
+    });
+  });
 
 
   async function appendMovies(page: number) {
@@ -62,6 +80,8 @@ const ListOfCards: React.FC<Props> = ({route})  => {
     loadingNewMovies = false;
   }
   const headerHeight = useHeaderHeight();
+
+
 
 
   const checkScroll = (e: any) =>{
